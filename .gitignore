@@ -1,0 +1,15 @@
+# Ignore Byte-compiled / optimized / DLL files
+src/__pycache__/
+
+# Ignore Output Files
+src/output/
+
+# Ignore Virtual environment
+src/venv/
+
+# Ignore Data Files
+data/Beauty_ItemCF_IUF_similarity.pkl
+
+data/Home_ItemCF_IUF_similarity.pkl
+
+data/Sports_ItemCF_IUF_similarity.pkl
