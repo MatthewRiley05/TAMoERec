@@ -11,10 +11,10 @@ import time
 # python cecf.py --data_name=Beauty --do_eval --no_cluster
 
 # SVD KMeans
-# python cecf.py --data_name=Beauty --do_eval --cluster_method=svd_kmeans --n_clusters_list 149 500 1000 2000 5000 10000 --top_k=10
+# python cecf.py --data_name=Beauty --do_eval --cluster_method=svd_kmeans --n_clusters_list 149 500 1000 5000 --top_k=10
 
 # Spectral Clustering
-# python cecf.py --data_name=Beauty --do_eval --cluster_method=spectral --n_clusters_list 50 100 149 500 --top_k=10
+# python cecf.py --data_name=Beauty --do_eval --cluster_method=spectral --n_clusters_list 149 500 1000 --top_k=10
 
 def build_recency_matrix(user_seq, time_seq, item_size):
     U = len(user_seq)

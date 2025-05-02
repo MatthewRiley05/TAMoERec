@@ -73,14 +73,7 @@ class SASRec(nn.Module):
             module.weight.data.fill_(1.0)
         if isinstance(module, nn.Linear) and module.bias is not None:
             module.bias.data.zero_()
-            
-    def forward(self, item_seq):
-        """
-        Required by PyTorch when a module is called directly.
-        Simply delegates to transformer_encoder for compatibility.
-        """
-        return self.transformer_encoder(item_seq)
-            
+
     def transformer_encoder(self, item_seq):
         position_ids = torch.arange(item_seq.size(1), dtype=torch.long, device=item_seq.device)
         position_ids = position_ids.unsqueeze(0).expand_as(item_seq)
