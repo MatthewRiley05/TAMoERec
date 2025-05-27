@@ -1,3 +1,6 @@
+# Time-Aware Mixture of Experts Recommendation (TAMoERec)
+The Hong Kong Polytechnic University COMP 4434 Big Data Analytics Project based on TiCoSeRec. This study incorporates alternative approaches to the problem from traditional machine learning baselines, to a basic neural network approach, and finally a more complex mixture-of-experts model to determine how well each model can leverage temporal data in next-item prediction.
+
 # TiCoSeRec
 Official source code for AAAI 2023 paper: [Uniform Sequence Better: Time Interval Aware Data Augmentation for Sequential Recommendation](https://arxiv.org/abs/2212.08262)
 
@@ -28,7 +31,36 @@ pandas == 1.2.4
 - You can use the code in `data_process` folder to process your own dataset, and we explained its role at beginning of each code file.
 
 - For Yelp dataset, we give two processed datasets from two different versions of Yelp. Yelp-A is processed from Yelp2020, which has 316,354 interactions. Yelp-B is processed from Yelp2022, which has 207,045 interactions.
+
+## Running the Model
+
+### Markov Chain
+
+- Run `Markov.ipynb` in a Jupyter Notebook
+
+### Cluster-Enhanced Collaborative Filtering (CeCF)
+
+- The code for Cluster-Enhanced Collaborative filtering is in the `cecf.py` python file. To run it, the commands given below must be pasted in the terminal with the root directory of the file.
+
+- To run the model without clustering:
+
+  `python cecf.py --data_name=Beauty --do_eval --no_cluster`
+
+- To run the model with SVD K-Means clustering:
+
+  `python cecf.py --data_name=Beauty --do_eval --cluster_method=svd_kmeans --n_clusters_list 149 500 1000 5000 --top_k=10`
+
+- To run the model with Spectral clustering:
+
+  `python cecf.py --data_name=Beauty --do_eval --cluster_method=spectral --n_clusters_list 149 500 1000 --top_k=10`
+
+### GRU4REC
+
+- The code for the Basic Neural Network GRU4REC is in the file `gru4rec.ipynb`. To run the file, it is recommended to use Google Colab environment with GPU support for efficient training. Upload the notebook along with the dataset and update the dataset path accordingly and run the notebook cells sequentially.
+
 ## Train Model
+
+### TiCoSeRec
 
 - Delete `_rank_org` or `_rank_var` in the file name. 
   
@@ -50,6 +82,12 @@ pandas == 1.2.4
 - The code will output the training log, the log of each test, and the `.pt` file of each test. You can change the test frequency in `src/main.py`.
 - The meaning and usage of all other parameters have been clearly explained in `src/main.py`. You can change them as needed.
 
+### TAMoERec
+
+- The code for Time-Aware Mixture-of-Experts Recommender is in the `moe_main.py` python file. To run it, the commands given below must be pasted in the terminal with the root directory of the file.
+
+  `python moe_main.py --data_name=Beauty --model_idx=1 --augmentation_warm_up_epochs=350 --mask_mode=maximum --substitute_rate=0.2 --crop_rate=0.4 --mask_rate=0.7 --reorder_rate=0.5 --gpu_id=0`
+
 ## Hyper-parameter Fine-Tuning
 If you use your own dataset, we give some suggestions and ranges for fine-tuning of Hyper-parameters.
 - augment_threshold: it needs to be adjusted according to the dataset. 
@@ -62,6 +100,8 @@ If you use your own dataset, we give some suggestions and ranges for fine-tuning
 ## Evaluate Model
 
 - Change to `src` folder, Move the `.pt` file to the `src/output` folder. We give the weight file of the Beauty, Sports and Home dataset.
+
+### TiCoSeRec
 
 - Run the following command.
   ```
@@ -80,6 +120,11 @@ If you use your own dataset, we give some suggestions and ranges for fine-tuning
   Home Results:
   {'stage': 'test', 'epoch': 0, 'HIT@5': '0.0182', 'NDCG@5': '0.0127', 'HIT@10': '0.0266', 'NDCG@10': '0.0154', 'HIT@20': '0.0390', 'NDCG@20': '0.0185'}
   ```
+
+### TAMoERec
+- Run the following command
+
+  `python moe_main.py --data_name=Beauty --eval_path=./output/TiCoSeRec-Beauty-1/epoch-349.pt --do_eval --gpu_id=0`
 
 # Acknowledgement
  - Training pipeline is implemented based on [CoSeRec](https://github.com/YChen1993/CoSeRec).
